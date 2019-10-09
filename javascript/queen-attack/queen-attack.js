@@ -34,7 +34,6 @@ export class QueenAttack {
 		const same_pos = (pos.white[0] === pos.black[0]
 				&& pos.white[1] === pos.black[1])
 		if (same_pos) {
-			console.log("error")
 			throw new Error("Queens cannot share the same space")
 		}
 	}
@@ -53,9 +52,3 @@ export class QueenAttack {
                 for(let i; i<n; i++){yield val;}
         }
 }
-
-//let Q = new QueenAttack({white: [7, 0], black:[0, 7]})
-//console.log("new attack obj created");
-//console.log(Q.canAttack())
-//console.log(Q.board)
-//console.log(Q.toString())

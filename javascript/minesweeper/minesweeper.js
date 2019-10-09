@@ -1,27 +1,45 @@
-export const annotate = (minefield) => {
-	const grid = minefield.map(r => [...r].map(c => (c===MINE) ? MINE : 0))
-	const mines = grid.flatMap((r, j) => r		
-			.map((c, i) => (c==MINE) ? [i, j] : ' ')
-			.filter(x => x !== ' '));
-	const annotated_grid = mines
-		.reduce(count_mine, grid)
-		.map(r => r.map(c => (c==0) ? ' ' : c.toString()).join(''))
-	return annotated_grid
+function Minefield(array_of_lines) { 
+	this.MINE = '*'
+	this.grid = array_of_lines.map(line => [...line].map(c=>(c!==this.MINE)?0:c));
+};
+
+Minefield.prototype.sweep_kernel = (i, j, i_max, j_max) =>
+	[[i-1, j-1],[i-1,j],[i-1,j+1],[i,j-1],[i, j+1],[i+1, j-1],[i+1, j],[i+1, j+1]]
+		.filter(a => a[0] > -1     && a[1] > -1)
+		.filter(a => a[0] <= i_max && a[1] <= j_max)
+
+Minefield.prototype.which_mines = function(){ 
+	return this.grid	
+			.map((r, j) => r
+				.flatMap((c, i) => (c===this.MINE) ? [i, j] : c)
+				.filter(x => x!== this.MINE))
+			.filter(x => x.length > 0)
 }
 
-const count_mine = (acc_arr, mine_pos) =>
-	acc_arr.map((r, j) => 
-		r.map((c, i) => 
-			(c!==MINE && adjacent_to_mine([i, j], mine_pos))
-				? c += 1
-				: c
-		)
-	);
+Minefield.prototype.count_mines = function(){
+	return this.which_mines()
+			.reduce(this._count_mine(this), this.grid)
+			.map(r => r.map(c => (c==0) ? ' ' : c.toString()));
+}
 
-const adjacent_to_mine = (curr_pos, mine_pos) => 
-	((curr_pos[0]-mine_pos[0])**2 + (curr_pos[1]-mine_pos[1])**2) <= 2
+Minefield.prototype._count_mine = function(_this){
+	return function(acc_array, mine_pos){
+	return _this.sweep_kernel(mine_pos[0], mine_pos[1], acc_array[0].length-1, acc_array.length-1)
+		.reduce((acc, kern_pos) => _this._inc_cell(acc, kern_pos), acc_array);
+	}
+}
 
-const MINE = '*';
+Minefield.prototype._inc_cell = (arr, pos) =>
+	arr.map((r,j) => r.map((c,i) => (i==pos[0] && j==pos[1]) ? Math.floor(c)+1 : Math.floor(c)));
 
-//const field0 = ["  *", " * ", "*  "]
-//annotate(field0);
+export const annotate = (lines) => {
+	const mf = new Minefield(lines); 
+	return mf.count_mines().map(x => x.join(''))
+};
+
+//const field0 = ["  *", " * ", "   "]
+//const f = new Minefield(field0)
+//console.log("which mines: ", f.which_mines())
+//console.log("sweep kernel: ", f.sweep_kernel(0,0,2,2))
+//console.log("count mines: ", f.count_mines())
+//console.log(annotate(field0));
