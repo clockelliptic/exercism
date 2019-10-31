@@ -1,11 +1,13 @@
-export const abilityModifier = () => {
-  
-};
+export const abilityModifier = (ability_score) => {
+  if(ability_score > 18) throw new Error("Ability scores can be at most 18")
+  if(ability_score < 3) throw new Error("Ability scores must be at least 3")
+  return Math.floor((ability_score - 10) / 2)
+}
 
 export class Character {
   constructor(){
     this._abilities = ['strength','dexterity','constitution', 'intelligence', 'wisdom', 'charisma', 'hitpoints']
-      .reduce((abls, a) => Object.assign(abls, {[a]: this.rollAbility()}),{})
+      .reduce((abls, a) => Object.assign(abls, {[a]: Character.rollAbility()}),{})
   }
 
   static rollAbility() {
@@ -41,10 +43,7 @@ export class Character {
   }
 
   get hitpoints() {
-    return 10+this.abilityModifier(this.constitution)
+    return 10+abilityModifier(this.constitution)
   }
 
-  static abilityModifier(ability_score){
-    return Math.floor((ability_score - 10) / 2)
-  }
 }
