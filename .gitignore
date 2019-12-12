@@ -6,6 +6,10 @@
 # gitignore template for Exercism project
 # website: https://exercism.io/
 
+# Ignore mentee soutions
+/users
+/dev
+
 # Ignore .exercism folder which contain sensitive data
 .exercism
 
