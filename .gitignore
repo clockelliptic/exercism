@@ -8,7 +8,6 @@
 
 # Ignore mentee soutions
 /users
-/dev
 
 # Ignore .exercism folder which contain sensitive data
 .exercism
