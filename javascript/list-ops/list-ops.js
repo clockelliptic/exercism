@@ -1,55 +1,52 @@
-const push = (arr, newVal) => [...arr, ...(Array.isArray(newVal) ? newVal : [newVal])]
-const reduce = (arr, res, fn, i = 0) =>
-  (i < arr.length)
-    ? reduce(arr, fn(res, arr[i]), fn, i + 1)
-    : res
+const push = (xs, x) => [...xs, x]
+const foldl = (xs, acc, fn, i = 0) =>
+  (i < xs.length)
+    ? foldl(xs, fn(acc, xs[i]), fn, i + 1)
+    : acc
+const concat = (arrs) => {
+      const [head, ...tail] = [...arrs]
+      return foldl(tail, head, (acc, arr) => (arr.length ? [...acc, ...arr] : acc))
+    }
+const reverse = (xs) => foldl(xs, [], (acc, x) => [x, ...acc])
 
 export class List {
-  constructor(arg) {
-    this._data = [];
+  constructor(data=[]) {
+    this._data = data;
   }
 
-  append(newList) {
-    this._data = push(this._data, newList.values)
-    return this;
+  append(list) {
+    return new List([...this._data, ...list.values]);
   }
 
   get values() {
     return [...this._data];
   }
 
-  concat(list1) {
-    return this.append(list1);
+  concat(more) {
+    return new List(concat([this._data, ...more.values.map(list => list.values)]))
   }
 
-  filter(predicate) {
-    this._data = reduce(this._data, [], (a, b) => predicate(b) ? push(a, b) : a);
-    return this;
+  filter(pred) {
+    return new List(foldl(this._data, [], (acc, x) => pred(x) ? push(acc, x) : acc))
   }
 
-  map(callback) {
-    this._data = reduce(this._data, [], (a, b) => push(a, callback(b)));
-    return this;
+  map(fn) {
+    return new List(foldl(this._data, [], (acc, x) => push(acc, fn(x))))
   }
 
   length() {
-    return this._data.length;
+    return this._data.length
   }
 
-  foldl(callback, init) {
-    return reduce(this._data, init, callback);
+  foldl(fn, acc) {
+    return foldl(this._data, acc, fn)
   }
 
-  foldr(callback, init) {
-    const reduce = (xs, res, len) => len < 0 ? res : reduce(xs, callback(res, xs[len]), len - 1);
-    return reduce(this._data, init, this.length() - 1);
-
+  foldr(fn, acc) {
+    return foldl(reverse(this._data), acc, fn)
   }
 
   reverse() {
-    this._data = this.foldl((a, b) => [b, ...a], []);
-    return this;
-
+    return new List(reverse(this._data))
   }
-
 }
