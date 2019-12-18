@@ -1,6 +1,6 @@
 {
     "title":"Exercism.io Exercises",
-    "description":"My solutions to Exercism.io coding exercises. These solutions focus on coding literacy, solving a variety of problems in the areas of algorithms, data structures, and TDD dev practices.",
+    "description":"Full transparency: I am currently a coding mentor and contributor at Exercism! My solutions to Exercism.io coding exercises. These solutions focus on coding literacy, solving a variety of problems in the areas of algorithms, data structures, and TDD dev practices.",
     "tags":{
        "languages":[
           "javascript", "python"
