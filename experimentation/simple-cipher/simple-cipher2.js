@@ -1,31 +1,24 @@
 const SYMBOLS = 'abcdefghijklmnopqrstuvwxyz'
 const SET_LEN = SYMBOLS.length
 const DEFAULT_KEY_LENGTH = 100
-
-
 const random = (min,max) => Math.floor(Math.random() * (max - min)) + min;
 const randomKey = (n) => Array(n).fill().map(_ => SYMBOLS[random(0, SET_LEN)] )
-
 class Cipher {
   constructor(key = randomKey(DEFAULT_KEY_LENGTH)) {
-    // map characters to values 0 - 25
     this.__key = [...key].map(c => SYMBOLS.indexOf(c))
   }
-
   encode(msg) {
     return [...msg]
         .map((c, i) => SYMBOLS.indexOf(c) + this.__key[i%this.__key.length])
         .map(n => SYMBOLS[n % SET_LEN])
         .join('')
   }
-
   decode(code) {
     return [...code]
         .map((c, i) => LETTERS.indexOf(c) - this.__key[i%this.__key.length])
         .map(n => SYMBOLS[(n+SET_LEN) % SET_LEN])
         .join('')
   }
-
   get key() {
     return this.__key.map(c => SYMBOLS[c]).join('')
   }
