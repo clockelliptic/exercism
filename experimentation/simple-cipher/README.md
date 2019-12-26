@@ -101,11 +101,19 @@ Speed of human perception is related to how *fast* we want our code to be.
 
 Human short-term memory is related to *code readability and maintainability*.
 
-**Speed of human perception:** 30ms (3/100 seconds)
-https://biology.stackexchange.com/questions/19918/what-limits-the-speed-of-human-perception
+**Speed of human perception:** 
+30ms (3/100 seconds)
+
+src: https://biology.stackexchange.com/questions/19918/what-limits-the-speed-of-human-perception
 
 **Upper limit of human short-term memory**:
+1. limited capacity (only about 7 items can be stored at a time)
 
+2. limited duration (storage is very fragile and information can be lost with distraction or passage of time)
+
+3. encoding (primarily acoustic, even translating visual information into sounds).
+
+src: https://www.simplypsychology.org/short-term-memory.html
 
 **As a rule of thumb in the _professional development world_ we _never_ optimize for speed first. We always optimize for readability and maintainability.**
 
