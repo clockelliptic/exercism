@@ -101,7 +101,7 @@ Speed of human perception is related to how *fast* we want our code to be.
 
 Human short-term memory is related to *code readability and maintainability*.
 
-**Speed of human perception:** 
+**Speed of human perception:**
 30ms (3/100 seconds)
 
 src: https://biology.stackexchange.com/questions/19918/what-limits-the-speed-of-human-perception
@@ -119,7 +119,6 @@ src: https://www.simplypsychology.org/short-term-memory.html
 
 # Experimentation Results
 
-1. Time Efficiency
 
 Relative to the experimenter's computer, the following time-efficiency results were gathered:
 
